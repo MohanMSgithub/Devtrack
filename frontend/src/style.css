@@ -1,0 +1,191 @@
+/* style.css — DevTrack custom UI styles */
+
+html {
+  --section-background-color: linear-gradient(
+    to bottom left,
+    rgba(30, 39, 34, 0.75),
+    rgba(20, 30, 25, 0.9)
+  );
+
+  --image-gradient: linear-gradient(
+    to bottom left,
+    rgba(38, 53, 44, 0.7),
+    rgba(22, 34, 28, 0.85)
+  );
+
+  --imp-text-color: #6fbf73;
+}
+
+.purple {
+  color: var(--imp-text-color) !important;
+}
+
+button:focus {
+  box-shadow: none !important;
+}
+
+/* --------- */
+/*  Preloader */
+/* --------- */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background-color: #0c0513;
+  background-image: url(./Assets/pre.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#preloader-none {
+  opacity: 0;
+}
+
+#no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* --------- */
+/* Scrollbar */
+/* --------- */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #26352d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(111, 191, 115, 0.8);
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 148, 81, 0.8);
+}
+
+/* --------- */
+/* Navbar */
+/* --------- */
+.sticky {
+  background-color: #1c1e1fbf !important;
+  transition: all 0.3s ease-out;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(15px);
+}
+
+.navbar {
+  position: fixed;
+  transition: all 0.3s ease-out;
+  padding: 0.3rem 2rem;
+  font-size: 1.2rem;
+  z-index: 999;
+}
+
+.navbar-toggler {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.navbar-toggler span {
+  display: block;
+  background-color: #6fbf73;
+  height: 4px;
+  width: 27px;
+  margin: 5px 0;
+}
+
+.navbar-toggler:not(.collapsed) span:nth-child(1) {
+  position: absolute;
+  transform: rotate(135deg);
+  top: 10px;
+  left: 12px;
+  opacity: 0.9;
+}
+
+.navbar-toggler:not(.collapsed) span:nth-child(2) {
+  visibility: hidden;
+  background: transparent;
+}
+
+.navbar-toggler:not(.collapsed) span:nth-child(3) {
+  position: absolute;
+  transform: rotate(-135deg);
+  top: 10px;
+  left: 12px;
+  opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    background-color: #181a27 !important;
+    font-size: 1.4rem;
+  }
+
+  .nav-link {
+    padding: 0.7rem 1rem;
+  }
+}
+
+.navbar-brand {
+  color: white !important;
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+  padding: 0.8rem 1rem;
+}
+
+.navbar-nav .nav-item {
+  position: relative;
+  margin-left: 20px;
+}
+
+.navbar-nav .nav-item a::after {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 5px;
+  width: 0;
+  border-radius: 16px;
+  background: #6fbf73;
+  bottom: 1px;
+  left: 0;
+  transition: width 0.3s ease-out;
+}
+
+.navbar-nav .nav-item a:hover::after {
+  width: 100%;
+}
+
+/* Fork Button */
+.fork-btn {
+  font-size: 1.1em;
+  padding-top: 10px;
+}
+
+.fork-btn-inner {
+  line-height: 1.4em;
+  background-color: #3f5f47;
+  padding: 0.25rem 1.1rem;
+  color: white;
+  border: none;
+}
+
+.fork-btn-inner:hover {
+  background-color: #4f9c5b;
+  transform: translateY(-2px);
+}
+
+/* Optional Footer Styles */
+.footer {
+  background-color: #0a0416;
+  padding: 10px 0;
+  color: white;
+  text-align: center;
+}
