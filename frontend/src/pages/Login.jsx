@@ -2,7 +2,7 @@ import React from "react";
 
 function Login() {
   const handleGitHubLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github"; // Adjust for Render later
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/oauth2/authorization/github`; // Adjust for Render later
   };
 
   return (
