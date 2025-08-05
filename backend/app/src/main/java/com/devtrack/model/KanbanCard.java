@@ -9,7 +9,7 @@ public class KanbanCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String column;
+    private String columnName;
     private String title;
     private String description;
 
@@ -26,11 +26,11 @@ public class KanbanCard {
     }
 
     public String getColumn() {
-        return column;
+        return columnName;
     }
 
     public void setColumn(String column) {
-        this.column = column;
+        this.columnName = column;
     }
 
     public String getTitle() {

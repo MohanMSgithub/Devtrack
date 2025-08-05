@@ -13,6 +13,66 @@ public class User {
     private String username;
     private String email;
 
+    public User() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getGithubId() {
+        return githubId;
+    }
+
+    public void setGithubId(String githubId) {
+        this.githubId = githubId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<DailyLog> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(List<DailyLog> logs) {
+        this.logs = logs;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    public List<KanbanCard> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<KanbanCard> cards) {
+        this.cards = cards;
+    }
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DailyLog> logs;
 
@@ -21,6 +81,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<KanbanCard> cards;
+
+    public User(String username) {
+        this.username = username;
+    }
+
+
 
     // Getters and Setters
 }

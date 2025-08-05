@@ -5,6 +5,8 @@ spring:
     password: b0iDxatJ2NeJ0p5T
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  jwt:
+    secret=W9tB8D3fUzX9HfL0RnAaP3XpKjLg7xVe:
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,6 +14,23 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23lizvVnMn0WoxNeA0
+            client-secret: cfefc93c3c0d1822d36dfb646480eddafc733610
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
 
 server:
   port: 8080

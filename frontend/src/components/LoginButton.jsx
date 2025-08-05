@@ -6,9 +6,9 @@ function LoginButton() {
   };
 
   return (
-    <button className="btn btn-dark" onClick={handleLogin}>
-      Login with GitHub
-    </button>
+    
+    <button type="button" className="btn btn-dark" onClick={handleLogin}>Login with GitHub</button>
+
   );
 }
 

@@ -30,7 +30,12 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // Save user if not exists
         userRepository.findByUsername(username)
-                .orElseGet(() -> userRepository.save(new User(username)));
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setUsername(username);
+                    return userRepository.save(newUser);
+                });
+
 
         String token = jwtUtil.generateToken(username);
 

@@ -189,3 +189,10 @@ button:focus {
   color: white;
   text-align: center;
 }
+body {
+  background-color: #0d1117 !important;
+  color: #ffffff !important;
+  margin: 0;
+  padding: 0;
+}
+

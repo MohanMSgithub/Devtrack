@@ -1,14 +1,12 @@
 import React from "react";
+import LoginButton from "../components/LoginButton"; 
 
 function Login() {
-  const handleGitHubLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/oauth2/authorization/github`; // Adjust for Render later
-  };
-
   return (
-    <div className="login-page">
+    <div className="login-page text-center mt-5">
       <h2>Login to DevTrack</h2>
-      <button onClick={handleGitHubLogin}>Login with GitHub</button>
+      <p className="mb-4">Use your GitHub account to continue</p>
+      <LoginButton />
     </div>
   );
 }

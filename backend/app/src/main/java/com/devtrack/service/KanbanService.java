@@ -26,7 +26,7 @@ public class KanbanService {
         return kanbanRepository.findByUser(user);
     }
 
-    public void addCard(String username, CardDto cardDto) {
+    public KanbanCard addCard(String username, CardDto cardDto) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -36,6 +36,6 @@ public class KanbanService {
         card.setDescription(cardDto.getDescription());
         card.setUser(user);
 
-        kanbanRepository.save(card);
+        return kanbanRepository.save(card);
     }
 }
