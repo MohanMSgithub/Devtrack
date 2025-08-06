@@ -13,6 +13,7 @@ function Home() {
     if (token && username) {
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
+      window.location.href = "/"; // reloads without token in query params
     }
   }, [location]);
 

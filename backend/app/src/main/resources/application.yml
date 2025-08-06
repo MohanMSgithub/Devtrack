@@ -4,6 +4,11 @@ spring:
     username: 3Gz1smQYuiSRu7c.root
     password: b0iDxatJ2NeJ0p5T
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      validation-timeout: 3000
+      keepalive-time: 1500000
 
   jwt:
     secret=W9tB8D3fUzX9HfL0RnAaP3XpKjLg7xVe:

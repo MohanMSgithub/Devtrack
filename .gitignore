@@ -1,0 +1,22 @@
+# === IDE / Editor folders ===
+.idea/
+*.iml
+.vscode/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Build and Dependency folders ===
+node_modules/
+build/
+dist/
+out/
+target/
+
+# === Logs ===
+*.log
+
+# === Env files ===
+.env
+.env.local

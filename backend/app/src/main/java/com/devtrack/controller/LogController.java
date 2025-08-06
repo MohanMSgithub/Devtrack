@@ -1,33 +1,40 @@
 package com.devtrack.controller;
 
+import com.devtrack.dto.LogDto;
 import com.devtrack.model.DailyLog;
 import com.devtrack.model.User;
-import com.devtrack.repository.LogRepository;
 import com.devtrack.repository.UserRepository;
+import com.devtrack.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
+@RestController
+@RequestMapping("/api/logs")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LogController {
 
     @Autowired
-    private LogRepository logRepository;
+    private LogService logService;
 
     @Autowired
     private UserRepository userRepository;
 
-    public DailyLog addLog(String username, DailyLog log) {
-        User user = userRepository.findByUsername(username)
+    @PostMapping
+    public DailyLog createLog(@RequestBody LogDto logDto,
+                              @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        log.setUser(user);
-        return logRepository.save(log);
+        return logService.saveLog(logDto, user);
     }
 
-    public List<DailyLog> getLogsByUser(String username) {
-        User user = userRepository.findByUsername(username)
+    @GetMapping
+    public List<DailyLog> getLogs(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return logRepository.findByUser(user);
+        return logService.getLogs(user);
     }
 }

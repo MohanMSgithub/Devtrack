@@ -1,6 +1,7 @@
 package com.devtrack.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Note {
@@ -43,10 +44,11 @@ public class Note {
     private String title;
     private String content;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore // ✅ Prevent infinite recursion during JSON serialization
     private User user;
 
-    // Getters and Setters
 }
 

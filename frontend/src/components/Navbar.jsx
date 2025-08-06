@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
@@ -10,11 +10,15 @@ import {
 import { CgGitFork } from "react-icons/cg";
 import { AiFillStar } from "react-icons/ai";
 
-import "../App.css"; // Add CSS for .navbar, .sticky, .fork-btn etc.
+import { AuthContext } from "../context/AuthContext";
+import "../App.css";
 
 function NavBar() {
   const [expand, setExpand] = useState(false);
   const [navColour, setNavColour] = useState(false);
+
+  const { user, logout } = useContext(AuthContext); // ✅ from context
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +27,11 @@ function NavBar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = () => {
+    logout();                           // clear token + user
+    navigate("/");                      // redirect to Home
+  };
 
   return (
     <Navbar
@@ -33,7 +42,6 @@ function NavBar() {
     >
       <Container>
         <Navbar.Brand as={Link} to="/" onClick={() => setExpand(false)}>
-          {/* You can add a logo here if needed */}
           <strong>DevTrack</strong>
         </Navbar.Brand>
 
@@ -78,6 +86,18 @@ function NavBar() {
                 <AiFillStar style={{ fontSize: "1.1em" }} />
               </Button>
             </Nav.Item>
+
+            {user && (
+              <Nav.Item>
+                <Button
+                  variant="outline-danger"
+                  className="ms-3"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </Nav.Item>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

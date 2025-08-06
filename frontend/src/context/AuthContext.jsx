@@ -7,15 +7,21 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    if (token) {
-      fetch("http://localhost:8080/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
+  if (token && !user) {
+    fetch("http://localhost:8080/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
       })
-        .then((res) => res.json())
-        .then((data) => setUser(data))
-        .catch(() => setUser(null));
-    }
-  }, [token]);
+      .then((data) => setUser(data))
+      .catch(() => {
+        logout(); // clean up on 401
+      });
+  }
+}, [token]);
+
 
   const login = (token, user) => {
     localStorage.setItem("token", token);
