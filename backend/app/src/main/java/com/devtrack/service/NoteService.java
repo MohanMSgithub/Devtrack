@@ -50,4 +50,15 @@ public class NoteService {
 
         return noteRepository.save(note);
     }
+    public void deleteNoteById(Long id, String username) {
+        Note note = noteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+
+        if (!note.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("Unauthorized to delete this note");
+        }
+
+        noteRepository.delete(note);
+    }
+
 }

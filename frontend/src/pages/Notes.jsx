@@ -1,14 +1,39 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Underline } from "@tiptap/extension-underline";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { Highlight } from "@tiptap/extension-highlight";
+import { Color } from "@tiptap/extension-color";
+import { FontSize } from "../extensions/FontSize";
+
+import "../style.css";
 
 function Notes() {
-  const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [notes, setNotes] = useState([]);
+  const [bgColor, setBgColor] = useState(localStorage.getItem("bgColor") || "#ffffff");
+  const [textColor, setTextColor] = useState(localStorage.getItem("textColor") || "#000000");
+  const [fontSize, setFontSize] = useState(localStorage.getItem("fontSize") || "16");
+
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      TextStyle,
+      Highlight,
+      Color,
+      FontSize,
+    ],
+    content: "",
+  });
 
   useEffect(() => {
     if (!token) {
@@ -22,68 +47,114 @@ function Notes() {
   const fetchNotes = () => {
     axios
       .get("http://localhost:8080/api/notes", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setNotes(res.data))
-      .catch((err) => {
-        console.error("Error fetching notes:", err);
-        if (err.response?.status === 401) navigate("/login");
-      });
+      .catch((err) => console.error("Error fetching notes:", err));
   };
 
   const handleAddNote = () => {
-    if (!title || !content) return;
+    if (!title.trim() || !editor?.getHTML().trim()) return;
 
     axios
       .post(
         "http://localhost:8080/api/notes",
-        { title, content },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { title, content: editor.getHTML() },
+        { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => {
         setTitle("");
-        setContent("");
-        fetchNotes(); // refresh notes list
+        editor.commands.setContent("");
+        fetchNotes();
       })
       .catch((err) => console.error("Error adding note:", err));
   };
 
+  const handleDeleteNote = (id) => {
+    if (!window.confirm("Delete this note?")) return;
+
+    axios
+      .delete(`http://localhost:8080/api/notes/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => setNotes(notes.filter((n) => n.id !== id)))
+      .catch((err) => console.error("Error deleting:", err));
+  };
+
+  // Save local preferences
+  useEffect(() => {
+    localStorage.setItem("bgColor", bgColor);
+    localStorage.setItem("textColor", textColor);
+    localStorage.setItem("fontSize", fontSize);
+  }, [bgColor, textColor, fontSize]);
+
   return (
-    <div className="notes-page">
+    <div className="notes-container">
       <h2>My Notes</h2>
 
-      <div className="add-note">
+      <div className="note-form">
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <textarea
-          placeholder="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+
+        <EditorContent
+          editor={editor}
+          style={{
+            backgroundColor: bgColor,
+            color: textColor,
+            fontSize: `${fontSize}px`,
+            border: "1px solid #ccc",
+            padding: "10px",
+            minHeight: "100px",
+          }}
         />
+
+        <div className="options">
+          <label>
+            BG Color:{" "}
+            <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
+          </label>
+          <label>
+            Text Color:{" "}
+            <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} />
+          </label>
+          <label>
+            Font Size:{" "}
+            <input
+              type="number"
+              value={fontSize}
+              onChange={(e) => setFontSize(e.target.value)}
+              min="10"
+              max="36"
+            />
+          </label>
+        </div>
+
         <button onClick={handleAddNote}>Add Note</button>
       </div>
 
-      {notes.length === 0 ? (
-        <p>No notes available.</p>
-      ) : (
-        <ul>
-          {notes.map((note, index) => (
-            <li key={index}>
-              <strong>{note.title}:</strong> {note.content}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="note-list">
+        {notes.map((note) => (
+          <div
+            key={note.id}
+            className="note-card"
+            style={{
+              backgroundColor: bgColor,
+              color: textColor,
+              fontSize: `${fontSize}px`,
+            }}
+          >
+            <button className="delete-btn" onClick={() => handleDeleteNote(note.id)}>
+              ×
+            </button>
+            <h3>{note.title}</h3>
+            <div dangerouslySetInnerHTML={{ __html: note.content }} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

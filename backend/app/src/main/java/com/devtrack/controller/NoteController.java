@@ -4,6 +4,7 @@ import com.devtrack.dto.NoteDto;
 import com.devtrack.model.Note;
 import com.devtrack.service.NoteService;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +27,27 @@ public class NoteController {
     @GetMapping
     public List<NoteDto> getNotes() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName(); // ← Extracted from JWT
+        String username = auth.getName(); // Extracted from JWT
         return noteService.getNotesByUser(username).stream()
-                .map(note -> new NoteDto(note.getTitle(), note.getContent()))
+                .map(note -> new NoteDto(note.getId(), note.getTitle(), note.getContent()))
                 .toList();
     }
 
+
     @PostMapping
-    public Note addNote(@AuthenticationPrincipal OAuth2User principal, @RequestBody NoteDto noteDto) {
-        String username = principal.getAttribute("login");
+    public Note addNote(@RequestBody NoteDto noteDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName(); // ← extracted from JWT token
         return noteService.addNote(username, noteDto);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteNote(@PathVariable Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        noteService.deleteNoteById(id, username);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
