@@ -16,4 +16,4 @@ COPY app/src ./app/src
 
 RUN ./gradlew clean build -x test --no-daemon
 
-CMD ["sh", "-c", "java -jar $(ls app/build/libs/*.jar | head -n 1)"]
+CMD ["sh", "-c", "java -jar $(ls build/libs/*.jar | grep -v plain | head -n 1)"]
