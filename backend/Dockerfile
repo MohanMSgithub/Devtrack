@@ -7,6 +7,9 @@ COPY gradle ./gradle
 COPY settings.gradle ./
 COPY app/build.gradle ./app/
 
+# Make gradlew executable
+RUN chmod +x gradlew
+
 RUN ./gradlew dependencies --no-daemon || return 0
 
 COPY app/src ./app/src
