@@ -1,21 +1,22 @@
-# Use an official OpenJDK runtime as a parent image
 FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
-# Copy the Gradle wrapper and build files first
 COPY gradlew gradlew.bat ./
 COPY gradle ./gradle
-COPY build.gradle settings.gradle ./
+COPY settings.gradle ./
+
+# Copy build.gradle from app submodule
+COPY app/build.gradle ./app/
 
 # Download dependencies
 RUN ./gradlew dependencies --no-daemon || return 0
 
-# Copy the actual backend source code
-COPY src ./src
+# Copy actual source code from app/src
+COPY app/src ./app/src
 
 # Build the application
 RUN ./gradlew clean build -x test --no-daemon
 
-# Run the jar file
-CMD ["java", "-jar", "build/libs/backend-0.0.1-SNAPSHOT.jar"]
+# Run the jar
+CMD ["java", "-jar", "$(ls app/build/libs/*.jar | head -n 1)"]
