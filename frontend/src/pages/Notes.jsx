@@ -78,7 +78,7 @@ function Notes() {
     if (!window.confirm("Delete this note?")) return;
 
     axios
-      .delete(`http://localhost:8080/api/notes/${id}`, {
+      .delete(`http://localhost:8080/api/notes/${id}`,`https://devtracker-hg7n.onrender.com/api/notes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => setNotes(notes.filter((n) => n.id !== id)))

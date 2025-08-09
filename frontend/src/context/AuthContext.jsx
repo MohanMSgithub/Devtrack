@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
   if (token && !user) {
-    fetch("http://localhost:8080/auth/me", {
+    fetch("http://localhost:8080/auth/me", "https://devtracker-hg7n.onrender.com/auth/me", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
