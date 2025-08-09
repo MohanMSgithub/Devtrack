@@ -1,21 +1,33 @@
-FROM eclipse-temurin:20-jdk  # or 17-jdk if you change Gradle to sourceCompatibility=17
+# ---------- STAGE 1: Build ----------
+FROM eclipse-temurin:20-jdk AS builder
 
 WORKDIR /app
 
-COPY gradlew .
+# Copy Gradle wrapper and settings
+COPY gradlew gradlew.bat ./
 COPY gradle ./gradle
-COPY app/build.gradle ./app/
 COPY settings.gradle ./
+COPY app/build.gradle ./app/
+
+# Make Gradle wrapper executable
+RUN chmod +x gradlew
+
+# Pre-download dependencies (cached if unchanged)
+RUN ./gradlew dependencies --no-daemon || return 0
+
+# Copy source code
 COPY app/src ./app/src
 
+# Build Spring Boot JAR (skip tests)
+RUN ./gradlew clean bootJar -x test --no-daemon
 
-RUN chmod +x gradlew
-# Build the Spring Boot executable jar
-RUN ./gradlew bootJar -x test --no-daemon
+# ---------- STAGE 2: Runtime ----------
+FROM eclipse-temurin:20-jdk-alpine
 
-# Run the fat jar (exclude *-plain.jar)
-CMD ["sh", "-c", "java -jar $(ls build/libs/*.jar | grep -v plain | head -n 1)"]
+WORKDIR /app
 
+# Copy JAR from builder stage
+COPY --from=builder /app/app/build/libs/*.jar app.jar
 
-
-
+# Run the Spring Boot app
+ENTRYPOINT ["java", "-jar", "app.jar"]
