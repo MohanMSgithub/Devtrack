@@ -1,37 +1,38 @@
 package com.devtrack.dto;
 
 public class NoteDto {
+    private Long id;
     private String title;
     private String content;
-    private Long id;
 
-
-    // Constructors
+    public NoteDto() {
+        // Default constructor required for deserialization
+    }
 
     public NoteDto(Long id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
     }
-    public NoteDto(String title, String content) {
-        this.title = title;
-        this.content = content;
+
+    public Long getId() {
+        return id;
     }
 
-    // No-arg constructor
-    public NoteDto() {}
-
-    // Getters and Setters
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getContent() {
         return content;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setContent(String content) {

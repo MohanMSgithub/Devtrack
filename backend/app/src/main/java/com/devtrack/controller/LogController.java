@@ -24,17 +24,22 @@ public class LogController {
     private UserRepository userRepository;
 
     @PostMapping
-    public DailyLog createLog(@RequestBody LogDto logDto,
-                              @AuthenticationPrincipal UserDetails userDetails) {
+    public LogDto createLog(@RequestBody LogDto logDto,
+                            @AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return logService.saveLog(logDto, user);
+        DailyLog savedLog = logService.saveLog(logDto, user);
+        return new LogDto(savedLog);
     }
 
     @GetMapping
-    public List<DailyLog> getLogs(@AuthenticationPrincipal UserDetails userDetails) {
+    public List<LogDto> getLogs(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return logService.getLogs(user);
+        List<DailyLog> logs = logService.getLogs(user);
+        return logs.stream().map(LogDto::new).toList();
     }
+
+
+
 }

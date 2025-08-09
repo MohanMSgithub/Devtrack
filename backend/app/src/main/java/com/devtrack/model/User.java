@@ -1,5 +1,6 @@
 package com.devtrack.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -13,67 +14,8 @@ public class User {
     private String username;
     private String email;
 
-    public User() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGithubId() {
-        return githubId;
-    }
-
-    public void setGithubId(String githubId) {
-        this.githubId = githubId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<DailyLog> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<DailyLog> logs) {
-        this.logs = logs;
-    }
-
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
-
-    public List<KanbanCard> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<KanbanCard> cards) {
-        this.cards = cards;
-    }
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<DailyLog> logs;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -82,11 +24,31 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<KanbanCard> cards;
 
+    public User() {}
+
     public User(String username) {
         this.username = username;
     }
 
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
+    public String getGithubId() { return githubId; }
+    public void setGithubId(String githubId) { this.githubId = githubId; }
 
-    // Getters and Setters
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public List<DailyLog> getLogs() { return logs; }
+    public void setLogs(List<DailyLog> logs) { this.logs = logs; }
+
+    public List<Note> getNotes() { return notes; }
+    public void setNotes(List<Note> notes) { this.notes = notes; }
+
+    public List<KanbanCard> getCards() { return cards; }
+    public void setCards(List<KanbanCard> cards) { this.cards = cards; }
 }

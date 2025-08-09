@@ -1,5 +1,6 @@
 package com.devtrack.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,14 +8,16 @@ public class DailyLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String date;
     private String learned;
     private String built;
     private String blocked;
+
     @ManyToOne
+    @JsonBackReference
     private User user;
 
-    // Constructors
     public DailyLog() {}
 
     public DailyLog(Long id, String date, String learned, String built, String blocked) {
@@ -42,5 +45,5 @@ public class DailyLog {
     public void setBlocked(String blocked) { this.blocked = blocked; }
 
     public User getUser() { return user; }
-    public void setUser(User user) { this.user = user;}
+    public void setUser(User user) { this.user = user; }
 }

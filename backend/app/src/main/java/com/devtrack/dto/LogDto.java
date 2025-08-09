@@ -1,12 +1,22 @@
 package com.devtrack.dto;
 
+import com.devtrack.model.DailyLog;
+
 public class LogDto {
+    private Long id;
     private String date;
     private String learned;
     private String built;
     private String blocked;
 
-    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDate() {
         return date;
     }
@@ -23,6 +33,14 @@ public class LogDto {
         this.learned = learned;
     }
 
+    public String getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(String blocked) {
+        this.blocked = blocked;
+    }
+
     public String getBuilt() {
         return built;
     }
@@ -31,11 +49,15 @@ public class LogDto {
         this.built = built;
     }
 
-    public String getBlocked() {
-        return blocked;
+    public LogDto() {}
+
+    public LogDto(DailyLog log) {
+        this.id = log.getId();
+        this.date = log.getDate();
+        this.learned = log.getLearned();
+        this.built = log.getBuilt();
+        this.blocked = log.getBlocked();
     }
 
-    public void setBlocked(String blocked) {
-        this.blocked = blocked;
-    }
+    // Getters and Setters
 }

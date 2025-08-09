@@ -27,11 +27,12 @@ public class NoteController {
     @GetMapping
     public List<NoteDto> getNotes() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName(); // Extracted from JWT
+        String username = auth.getName();
         return noteService.getNotesByUser(username).stream()
                 .map(note -> new NoteDto(note.getId(), note.getTitle(), note.getContent()))
                 .toList();
     }
+
 
 
     @PostMapping
