@@ -13,7 +13,7 @@ COPY backend/build.gradle backend/settings.gradle ./
 RUN ./gradlew dependencies --no-daemon || return 0
 
 # Copy the actual backend source code
-COPY backend/src ./src
+COPY backend/app/src ./src
 
 # Build the application
 RUN ./gradlew clean build -x test --no-daemon
