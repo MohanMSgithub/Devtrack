@@ -15,7 +15,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",                // Local Vite dev server
+        "https://devtrack-nine.vercel.app"      // Your deployed frontend
+})
+
 public class AuthController {
 
     private final JwtUtil jwtUtil;

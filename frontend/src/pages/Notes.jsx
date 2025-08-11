@@ -34,6 +34,11 @@ function Notes() {
     ],
     content: "",
   });
+    // Choose base URL depending on environment
+  const baseUrl =
+    window.location.hostname === "localhost"
+      ? "http://localhost:8080"
+      : "https://devtracker-hg7n.onrender.com";
 
   useEffect(() => {
     if (!token) {
@@ -46,7 +51,7 @@ function Notes() {
 
    const fetchNotes = () => {
   axios
-    .get("http://localhost:8080/api/notes", {
+    .get(`${baseUrl}/api/notes`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {
@@ -62,7 +67,7 @@ function Notes() {
 
     axios
       .post(
-        "http://localhost:8080/api/notes",
+        `${baseUrl}/api/notes`,
         { title, content: editor.getHTML() },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -78,7 +83,7 @@ function Notes() {
     if (!window.confirm("Delete this note?")) return;
 
     axios
-      .delete(`http://localhost:8080/api/notes/${id}`,`https://devtracker-hg7n.onrender.com/api/notes/${id}`, {
+      .delete(`${baseUrl}/api/notes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => setNotes(notes.filter((n) => n.id !== id)))

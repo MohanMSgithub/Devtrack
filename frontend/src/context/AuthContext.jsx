@@ -8,7 +8,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
   if (token && !user) {
-    fetch("http://localhost:8080/auth/me", "https://devtracker-hg7n.onrender.com/auth/me", {
+    const isLocal = window.location.hostname === "localhost";
+    const baseUrl = isLocal
+      ? "http://localhost:8080"
+      : "https://devtracker-hg7n.onrender.com";
+    fetch(`${baseUrl}/auth/me`,{
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {

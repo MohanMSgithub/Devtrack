@@ -24,8 +24,12 @@ function Logs() {
   }, [token]);
 
   const fetchLogs = () => {
+      const isLocal = window.location.hostname === "localhost";
+      const baseUrl = isLocal
+      ? "http://localhost:8080"
+      : "https://devtracker-hg7n.onrender.com";
     axios
-      .get("http://localhost:8080/api/logs", "https://devtracker-hg7n.onrender.com/api/logs",{
+      .get(`${baseUrl}/api/logs`,{
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setLogs(res.data))
@@ -43,7 +47,7 @@ function Logs() {
 
     axios
       .post(
-        "http://localhost:8080/api/logs","https://devtrack-nine.vercel.app/api/logs",
+        `${baseUrl}/api/logs`,
         { date, learned, built, blocked },
         {
           headers: { Authorization: `Bearer ${token}` },

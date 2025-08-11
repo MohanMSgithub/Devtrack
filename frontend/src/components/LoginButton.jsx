@@ -2,7 +2,12 @@ import React from "react";
 
 function LoginButton() {
   const handleLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+        const isLocal = window.location.hostname === "localhost";
+    const baseUrl = isLocal
+      ? "http://localhost:8080"
+      : "https://devtracker-hg7n.onrender.com";
+
+    window.location.href = `${baseUrl}/oauth2/authorization/github`;
   };
 
   return (
