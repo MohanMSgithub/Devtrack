@@ -7,6 +7,8 @@ import {
   AiOutlineFileText,
   AiOutlineAppstore,
 } from "react-icons/ai";
+ 
+
 import { CgGitFork } from "react-icons/cg";
 import { AiFillStar } from "react-icons/ai";
 
@@ -38,7 +40,7 @@ function NavBar() {
       expanded={expand}
       fixed="top"
       expand="md"
-      className={navColour ? "sticky" : "navbar"}
+      className={`${navColour ? "sticky" : "navbar"} navbar-dark bg-dark`}
     >
       <Container>
         <Navbar.Brand as={Link} to="/" onClick={() => setExpand(false)}>
@@ -48,7 +50,12 @@ function NavBar() {
         <Navbar.Toggle
           aria-controls="responsive-navbar-nav"
           onClick={() => setExpand(expand ? false : "expanded")}
-        />
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </Navbar.Toggle>
+
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">

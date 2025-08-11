@@ -74,7 +74,15 @@ button:focus {
 .navbar-toggler {
   background: transparent;
   border: none;
+} 
+
+.navbar-toggler {
+  margin-left: auto;
 }
+.navbar-toggler-icon {
+  background-image: none !important;
+}
+
 
 .navbar-toggler span {
   display: block;
@@ -88,7 +96,7 @@ button:focus {
 .navbar-toggler:not(.collapsed) span:nth-child(3) {
   position: absolute;
   top: 10px;
-  left: 12px;
+  right: 12px;
   opacity: 0.9;
 }
 
