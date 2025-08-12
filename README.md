@@ -50,3 +50,38 @@ Clone this repository. You will need `node.js`, `npm`, `Java 17+`, `Gradle`, and
    npm install
    npm start
    ```
+
+## 🏗 Architecture
+
+```mermaid
+flowchart TB
+    subgraph Frontend [Frontend - React]
+        Home[Home Page]
+        Login[GitHub OAuth Login]
+        Logs[Daily Logs Page]
+        Kanban[Kanban Board]
+        Notes[Notes Page - Local Storage]
+        Dashboard[Dashboard Page]
+    end
+
+    subgraph Backend [Backend - Spring Boot]
+        API[REST Controllers]
+        Auth[JWT Auth Service]
+        UserService[User Service]
+        LogService[Log Service]
+        KanbanService[Kanban Service]
+        DB[(MySQL Database)]
+    end
+
+    subgraph GitHubAPI [GitHub API]
+        OAuth[OAuth Authorization]
+    end
+
+    Home --> Login
+    Login --> OAuth
+    OAuth --> Backend
+    Backend --> DB
+    Logs --> Backend
+    Kanban --> Backend
+    Notes --> LocalStorage[(Browser Local Storage)]
+    Dashboard --> Backend
