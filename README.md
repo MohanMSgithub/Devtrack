@@ -126,3 +126,7 @@ flowchart TB
     Kanban --> Backend
     Notes --> LocalStorage[(Browser Local Storage)]
     Dashboard --> Backend
+```
+## 📜 License
+This project is licensed under the [MIT License](./LICENSE) — feel free to use, modify, and distribute with attribution.
+
