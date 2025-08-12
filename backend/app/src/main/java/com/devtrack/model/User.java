@@ -48,7 +48,7 @@ public class User {
 
     public List<Note> getNotes() { return notes; }
     public void setNotes(List<Note> notes) { this.notes = notes; }
-
+    @JsonManagedReference
     public List<KanbanCard> getCards() { return cards; }
     public void setCards(List<KanbanCard> cards) { this.cards = cards; }
 }

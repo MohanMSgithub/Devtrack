@@ -1,5 +1,7 @@
 package com.devtrack.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,12 +10,14 @@ public class KanbanCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "column_name")
     private String columnName;
     private String title;
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     // Getters and Setters

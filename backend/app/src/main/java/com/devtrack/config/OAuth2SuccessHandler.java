@@ -40,8 +40,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         String token = jwtUtil.generateToken(username);
 
         // Redirect with token as query param
-        // response.sendRedirect("http://localhost:5173?token=" + token + "&username=" + username);
-        response.sendRedirect("https://devtrack-nine.vercel.app?token=" + token + "&username=" + username);
+         response.sendRedirect("http://localhost:5173?token=" + token + "&username=" + username);
+//        response.sendRedirect("https://devtrack-nine.vercel.app?token=" + token + "&username=" + username);
 
     }
 }

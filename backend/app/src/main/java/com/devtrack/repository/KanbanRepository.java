@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface KanbanRepository extends JpaRepository<KanbanCard, Long> {
     List<KanbanCard> findByUser(User user);
+
 }

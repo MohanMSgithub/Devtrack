@@ -38,4 +38,45 @@ public class KanbanService {
 
         return kanbanRepository.save(card);
     }
+
+    public KanbanCard updateCard(String username, Long cardId, CardDto cardDto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        KanbanCard card = kanbanRepository.findById(cardId)
+                .orElseThrow(() -> new IllegalArgumentException("Card not found"));
+
+        if (!card.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Card does not belong to user");
+        }
+
+        if (cardDto.getTitle() != null && !cardDto.getTitle().trim().isEmpty()) {
+            card.setTitle(cardDto.getTitle().trim());
+        }
+
+        if (cardDto.getDescription() != null) {
+            card.setDescription(cardDto.getDescription().trim());
+        }
+
+        if (cardDto.getColumn() != null && !cardDto.getColumn().trim().isEmpty()) {
+            card.setColumn(cardDto.getColumn().trim());
+        }
+
+        return kanbanRepository.save(card);
+    }
+    public void deleteCard(String username, Long cardId) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        KanbanCard card = kanbanRepository.findById(cardId)
+                .orElseThrow(() -> new IllegalArgumentException("Card not found"));
+
+        if (!card.getUser().getId().equals(user.getId())) {
+            throw new SecurityException("User not authorized to delete this card");
+        }
+
+        kanbanRepository.delete(card);
+    }
+
+
 }

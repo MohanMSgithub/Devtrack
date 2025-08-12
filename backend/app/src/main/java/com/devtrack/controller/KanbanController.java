@@ -31,4 +31,21 @@ public class KanbanController {
     public KanbanCard addCard(@PathVariable String username, @RequestBody CardDto cardDto) {
         return kanbanService.addCard(username, cardDto);
     }
+    @PutMapping("/{username}/{cardId}")
+    public KanbanCard updateCard(
+            @PathVariable String username,
+            @PathVariable Long cardId,
+            @RequestBody CardDto cardDto) {
+        // Call service method to update card by id for user
+        return kanbanService.updateCard(username, cardId, cardDto);
+    }
+
+    @DeleteMapping("/{username}/{cardId}")
+    public void deleteCard(
+            @PathVariable String username,
+            @PathVariable Long cardId) {
+        // Call service method to delete card by id for user
+        kanbanService.deleteCard(username, cardId);
+    }
+
 }
