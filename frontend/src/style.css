@@ -537,3 +537,150 @@ button {
     padding-inline: 2rem;
   }
 }
+
+
+/* Place this next to your other styles (imported in Kanban.jsx) */
+
+.kanban-page {
+  padding: 20px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.kanban-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.kanban-actions input,
+.kanban-actions select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.kanban-actions button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #0b5cff;
+  color: white;
+  cursor: pointer;
+}
+
+.kanban-actions .secondary {
+  background: #666;
+}
+
+/* Board layout */
+.kanban-board {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* Column */
+.kanban-column {
+  background: #4c609c;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 360px;
+  min-height: 280px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+}
+
+.kanban-column h3 {
+  margin: 0 0 8px 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Card list */
+.column-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Card */
+.kanban-card {
+  background: #4d72aa;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(31, 41, 55, 0.04);
+  cursor: grab;
+  transition: transform 120ms ease;
+}
+
+.kanban-card.dragging {
+  opacity: 0.6;
+  transform: scale(0.98);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 14px;
+}
+
+.card-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+}
+.icon-btn:hover { background: rgba(0,0,0,0.04); }
+.icon-btn.danger { color: #b91c1c; }
+
+.card-desc {
+  margin-top: 8px;
+  color: #333;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+/* Editing */
+.edit-area input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  border: 1px solid #5177a2;
+}
+.edit-area textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #759be1;
+  resize: vertical;
+}
+.edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.edit-actions .secondary {
+  background: #666;
+}
+
+/* small screens */
+@media (max-width: 900px) {
+  .kanban-board {
+    flex-direction: column;
+  }
+  .kanban-column { max-width: 100%; }
+}
