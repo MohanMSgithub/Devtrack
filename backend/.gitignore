@@ -3,3 +3,7 @@
 
 # Ignore Gradle build output directory
 build
+# === IDE / Editor folders ===
+.idea/
+*.iml
+.vscode/
