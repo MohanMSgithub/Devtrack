@@ -3,20 +3,29 @@ package com.devtrack.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class DailyLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
+
     private String date;
+
     private String learned;
     private String built;
     private String blocked;
 
+
+
     @ManyToOne
     @JsonBackReference
     private User user;
+
 
     public DailyLog() {}
 
@@ -46,4 +55,15 @@ public class DailyLog {
 
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
+
+    @Transient // Not stored in DB
+    public String getContent() {
+        return String.format(
+                "Learned: %s | Built: %s | Blocked: %s",
+                learned != null ? learned : "",
+                built != null ? built : "",
+                blocked != null ? blocked : ""
+        );
+    }
+
 }

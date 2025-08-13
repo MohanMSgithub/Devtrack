@@ -1,88 +1,77 @@
-package com.devtrack.controller;
+package com.devtrack.model;
 
-import com.devtrack.model.DailyLog;
-import com.devtrack.model.Note;
-import com.devtrack.model.KanbanCard;
-import com.devtrack.model.User;
-import com.devtrack.repository.LogRepository;
-import com.devtrack.repository.NoteRepository;
-import com.devtrack.repository.KanbanRepository;
-import com.devtrack.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
 
-@RestController
-@RequestMapping("/api/dashboard")
-public class DashboardController {
-
-    private final DailyLogRepository dailyLogRepository;
-    private final NoteRepository noteRepository;
-    private final KanbanCardRepository kanbanCardRepository;
-    private final UserRepository userRepository;
-
-    public DashboardController(DailyLogRepository dailyLogRepository,
-                               NoteRepository noteRepository,
-                               KanbanCardRepository kanbanCardRepository,
-                               UserRepository userRepository) {
-        this.dailyLogRepository = dailyLogRepository;
-        this.noteRepository = noteRepository;
-        this.kanbanCardRepository = kanbanCardRepository;
-        this.userRepository = userRepository;
+@Entity
+public class KanbanCard {
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    // GET /api/dashboard/summary
-    @GetMapping("/summary")
-    public ResponseEntity<Map<String, Object>> getSummary(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        long totalLogs = dailyLogRepository.countByUser(user);
-        long totalNotes = noteRepository.countByUser(user);
-
-        Map<String, Long> kanbanCounts = new HashMap<>();
-        kanbanCounts.put("done", kanbanCardRepository.countByUserAndColumn(user, "done"));
-        kanbanCounts.put("inProgress", kanbanCardRepository.countByUserAndColumn(user, "inProgress"));
-        kanbanCounts.put("todo", kanbanCardRepository.countByUserAndColumn(user, "todo"));
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("totalLogs", totalLogs);
-        response.put("totalNotes", totalNotes);
-        response.put("kanban", kanbanCounts);
-
-        return ResponseEntity.ok(response);
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    // GET /api/dashboard/recent
-    @GetMapping("/recent")
-    public ResponseEntity<Map<String, Object>> getRecent(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "column_name")
+    private String columnName;
+    private String title;
+    private String description;
+    private LocalDate createdAt;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
 
-        List<Map<String, Object>> recentLogs = dailyLogRepository.findTop5ByUserOrderByDateDesc(user)
-                .stream()
-                .map(log -> Map.of(
-                        "date", log.getDate(),
-                        "content", log.getContent()
-                ))
-                .collect(Collectors.toList());
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
-        List<Map<String, Object>> recentNotes = noteRepository.findTop5ByUserOrderByCreatedAtDesc(user)
-                .stream()
-                .map(note -> Map.of(
-                        "title", note.getTitle(),
-                        "content", note.getContent()
-                ))
-                .collect(Collectors.toList());
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("logs", recentLogs);
-        response.put("notes", recentNotes);
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-        return ResponseEntity.ok(response);
+    public String getColumn() {
+        return columnName;
+    }
+
+    public void setColumn(String column) {
+        this.columnName = column;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

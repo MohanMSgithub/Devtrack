@@ -3,12 +3,30 @@ package com.devtrack.model;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.time.LocalDate;
+
+
 @Entity
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    private LocalDate createdAt;
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDate.now();
+    }
     public Long getId() {
         return id;
     }

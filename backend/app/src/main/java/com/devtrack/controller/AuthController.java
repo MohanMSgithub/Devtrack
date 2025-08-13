@@ -57,11 +57,9 @@ public class AuthController {
         }
 
         // Check if user exists or create new
-        Optional<User> optionalUser = userRepository.findByGithubId(githubId);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.orElseGet(User::new);
-        user.setGithubId(githubId);
-        user.setUsername(username);
-        user.setEmail(email);
+         user.setUsername(username);
 
         userRepository.save(user);
 
