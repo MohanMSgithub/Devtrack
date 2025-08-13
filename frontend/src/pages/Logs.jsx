@@ -13,6 +13,10 @@ function Logs() {
   const [blocked, setBlocked] = useState("");
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
+  const isLocal = window.location.hostname === "localhost";
+        const baseUrl = isLocal
+    ? "http://localhost:8080"
+    : "https://devtracker-hg7n.onrender.com";
 
   useEffect(() => {
     if (!token) {
@@ -24,10 +28,7 @@ function Logs() {
   }, [token]);
 
   const fetchLogs = () => {
-      const isLocal = window.location.hostname === "localhost";
-      const baseUrl = isLocal
-      ? "http://localhost:8080"
-      : "https://devtracker-hg7n.onrender.com";
+        
     axios
       .get(`${baseUrl}/api/logs`,{
         headers: { Authorization: `Bearer ${token}` },
