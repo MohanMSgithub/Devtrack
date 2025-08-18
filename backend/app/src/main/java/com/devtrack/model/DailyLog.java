@@ -13,8 +13,8 @@ public class DailyLog {
 
 
 
-
-    private String date;
+    @Column(nullable = false)
+    private LocalDate date;
 
     private String learned;
     private String built;
@@ -29,7 +29,7 @@ public class DailyLog {
 
     public DailyLog() {}
 
-    public DailyLog(Long id, String date, String learned, String built, String blocked) {
+    public DailyLog(Long id, LocalDate date, String learned, String built, String blocked) {
         this.id = id;
         this.date = date;
         this.learned = learned;
@@ -41,8 +41,8 @@ public class DailyLog {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 
     public String getLearned() { return learned; }
     public void setLearned(String learned) { this.learned = learned; }

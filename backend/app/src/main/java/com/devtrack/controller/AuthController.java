@@ -47,14 +47,11 @@ public class AuthController {
     public LoginResponseDto loginSuccess(@AuthenticationPrincipal OAuth2User principal,
                                          HttpServletResponse response) {
 
-        String githubId = principal.getAttribute("id");       // GitHub ID
-        String username = principal.getAttribute("login");    // GitHub username
-        String email = principal.getAttribute("email");       // GitHub email (can be null)
 
-        // fallback for private email
-        if (email == null || email.isEmpty()) {
-            email = "not-provided";
-        }
+        String username = principal.getAttribute("login");    // GitHub username
+
+
+
 
         // Check if user exists or create new
         Optional<User> optionalUser = userRepository.findByUsername(username);
