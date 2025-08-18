@@ -95,7 +95,7 @@ useEffect(() => {
 
        
       const [s, r] = await Promise.all([
-        axios.get(`${baseUrl}/api/dashboard/summary`, {
+        axios.get(`${baseUrl}/api/dashboard/stats`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
         axios.get(`${baseUrl}/api/dashboard/recent`, {
@@ -179,6 +179,7 @@ const handleSearch = async (query) => {
       mounted = false;
     };
   }, []);
+  
 
   // -------------------------------
   // Load GitHub profile + events
