@@ -68,6 +68,8 @@ function Logs() {
 
   return (
     <div className="logs-container">
+      <br/>
+      <br/>
       <h2>📘 Daily Dev Logs</h2>
 
       <div className="log-form">

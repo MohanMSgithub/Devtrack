@@ -1,686 +1,357 @@
-/* style.css — DevTrack custom UI styles */
-
-/* Global color variables */
-html {
-  --section-background-color: linear-gradient(to bottom left, rgba(13, 17, 23, 0.75), rgba(8, 12, 18, 0.9));
-  --image-gradient: linear-gradient(to bottom left, rgba(20, 30, 46, 0.7), rgba(10, 18, 32, 0.85));
-  --imp-text-color: #0066cc; /* Blue accent */
+/* =============================
+   Global Styles & Variables
+   ============================= */
+:root {
+  --imp-text-color: #0066cc;
+  --secondary-accent: #06b6d4;
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --bg-overlay: rgba(20, 25, 35, 0.9);
+  --text-light: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-light: rgba(255, 255, 255, 0.15);
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.25);
+  
 }
 
+html,
 body {
-  background-color: #0d1117;
-  color: #fff;
   margin: 0;
   padding: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.5;
 }
 
-.purple {
-  color: var(--imp-text-color);
-}
-
-button:focus {
-  box-shadow: none;
-}
-
-/* Preloader */
-#preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  background: #0c0513 url(./Assets/pre.svg) no-repeat center;
-}
-
-#preloader-none {
-  opacity: 0;
-}
-
-#no-scroll {
-  overflow: hidden;
-  height: 100vh;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 7px;
-}
-::-webkit-scrollbar-track {
-  background: #1c2633;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 102, 204, 0.8);
-  border-radius: 12px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 77, 153, 0.8);
-}
-
-/* Navbar */
+/* =============================
+   Navbar
+   ============================= */
 .navbar {
-  position: fixed;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
   top: 0;
-  width: 100%;
-  padding: 0.3rem 2rem;
-  font-size: 1.2rem;
-  transition: all 0.3s ease-out;
-  z-index: 999;
+  z-index: 1000;
 }
 
-.sticky {
-  background-color: #1c1e1fbf;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(15px);
+.navbar-brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--imp-text-color);
+  text-decoration: none;
 }
 
-.navbar-toggler {
-  background: transparent;
-  border: none;
-} 
-
-.navbar-toggler {
-  margin-left: auto;
-}
-.navbar-toggler-icon {
-  background-image: none !important;
+.navbar-nav {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
 }
 
-
-.navbar-toggler span {
-  display: block;
-  height: 4px;
-  width: 27px;
-  margin: 5px 0;
-  background-color: var(--imp-text-color);
-}
-
-.navbar-toggler:not(.collapsed) span:nth-child(1),
-.navbar-toggler:not(.collapsed) span:nth-child(3) {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  opacity: 0.9;
-}
-
-.navbar-toggler:not(.collapsed) span:nth-child(1) {
-  transform: rotate(135deg);
-}
-
-.navbar-toggler:not(.collapsed) span:nth-child(3) {
-  transform: rotate(-135deg);
-}
-
-.navbar-toggler:not(.collapsed) span:nth-child(2) {
-  visibility: hidden;
-  background: transparent;
-}
-
-@media (max-width: 767px) {
-  .navbar {
-    background-color: #181a27;
-    font-size: 1.4rem;
-  }
-  .nav-link {
-    padding: 0.7rem 1rem;
-  }
-}
-
-.navbar-brand,
-.navbar-nav .nav-link {
-  color: white;
-}
-
-.navbar-nav .nav-link {
-  padding: 0.8rem 1rem;
-}
-
-.navbar-nav .nav-item {
+.navbar-nav .nav-item a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
   position: relative;
-  margin-left: 20px;
+  transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-item a:hover {
+  color: var(--secondary-accent);
 }
 
 .navbar-nav .nav-item a::after {
   content: "";
   position: absolute;
-  bottom: 1px;
   left: 0;
-  height: 5px;
-  width: 0;
-  background: var(--imp-text-color);
-  border-radius: 16px;
-  transition: width 0.3s ease-out;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--imp-text-color),
+    var(--secondary-accent)
+  );
+  transition: width 0.3s ease;
 }
 
 .navbar-nav .nav-item a:hover::after {
   width: 100%;
 }
 
-/* Fork Button */
-.fork-btn {
-  font-size: 1.1em;
-  padding-top: 10px;
+/* =============================
+   Section Wrappers
+   ============================= */
+section {
+  padding: 2.5rem 1.5rem;
 }
 
-.fork-btn-inner {
-  background-color: #005bb5;
-  padding: 0.25rem 1.1rem;
-  color: white;
-  border: none;
-  line-height: 1.4em;
+h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--imp-text-color);
 }
 
-.fork-btn-inner:hover {
-  background-color: #004d99;
-  transform: translateY(-2px);
-}
-
-/* Footer */
-.footer {
-  background-color: #0a0416;
-  padding: 10px 0;
-  color: white;
-  text-align: center;
-}
-
-/* Notes Section */
-.notes-container {
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3rem 1rem 2rem;
-  box-sizing: border-box;
-}
-
-/* Note Form */
-.note-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 2rem;
-}
-
-.note-form input,
-.note-form textarea {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-family: inherit;
-  resize: vertical;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background-color: #fff;
-  color: #000;
-}
-
-.note-form input:focus,
-.note-form textarea:focus {
-  border-color: var(--imp-text-color);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
-}
-
-.note-form button {
-  padding: 0.75rem;
-  background-color: var(--imp-text-color);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.note-form button:hover {
-  background-color: #004d99;
-}
-
-/* Notes List */
-.note-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 1200px;
-  padding-inline: 1rem;
-  box-sizing: border-box;
-}
-
-.note-card {
-  background-color: #fff;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
+/* =============================
+   Cards (Shared: Notes, Logs, Kanban)
+   ============================= */
+.note-card,
+.log-card,
+.kanban-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.note-card:hover,
+.log-card:hover,
+.kanban-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 102, 204, 0.25);
+  border-color: var(--secondary-accent);
+}
+
+/* =============================
+   Buttons
+   ============================= */
+button,
+.note-form button,
+.log-form button,
+.kanban-actions button {
+  background: linear-gradient(
+    135deg,
+    var(--imp-text-color),
+    var(--secondary-accent)
+  );
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.note-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08);
+button:hover,
+.note-form button:hover,
+.log-form button:hover,
+.kanban-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+/* =============================
+   Notes Section
+   ============================= */
+.notes-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
 }
 
 .note-card h3 {
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--secondary-accent);
 }
 
 .note-card p {
-  margin: 0;
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.4;
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-/* Delete Button */
-.delete-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  color: #e53e3e;
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.delete-btn:hover {
-  color: #c53030;
-}
-
-/* Formatting Options */
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin: 1rem 0;
-  align-items: center;
-}
-
-.option-group label {
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
- 
-
-
-/* Logs Section */
-.logs-container {
-  min-height: 80vh;
-  padding: 3rem 1rem 2rem;
-  box-sizing: border-box;
+/* =============================
+   Logs Section
+   ============================= */
+.logs-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.logs-container h2 {
-  font-size: 1.8rem;
-  color: var(--imp-text-color);
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-/* Form Section */
-.log-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 2rem;
-  background-color: #12151d;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.log-form label {
+.log-card h4 {
+  margin: 0 0 0.4rem;
   font-weight: 600;
   font-size: 1rem;
-  color: #ccc;
+  color: var(--secondary-accent);
 }
 
-.log-form input[type="date"],
-.log-form textarea {
-  padding: 0.75rem 1rem;
-  border: 1px solid #333;
-  border-radius: 6px;
-  font-size: 1rem;
-  background-color: #1f242d;
-  color: #fff;
-  resize: vertical;
-  font-family: inherit;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+.log-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-.log-form input[type="date"]:focus,
-.log-form textarea:focus {
-  border-color: #0066cc;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
-}
-
-.log-form button {
-  padding: 0.75rem;
-  background-color: #0066cc;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.log-form button:hover {
-  background-color: #004d99;
-}
-
-/* Log Cards */
-.log-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 1200px;
-  padding-inline: 1rem;
-  box-sizing: border-box;
-}
-
-.log-card {
-  background-color: #1f242d;
-  padding: 1rem;
-  border: 1px solid #333;
-  border-radius: 8px;
-  color: #eee;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.log-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
-}
-
-.log-date {
-  font-size: 0.95rem;
-  font-weight: bold;
-  color: var(--imp-text-color);
-  margin-bottom: 0.75rem;
-}
-
-.log-section {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  color: #ccc;
-}
-
-.log-section strong {
-  color: #fff;
-}
-
-/* Responsive Tweaks */
-@media (max-width: 480px) {
-  .logs-container h2 {
-    font-size: 1.5rem;
-  }
-
-  .log-form,
-  .log-cards {
-    padding: 0;
-  }
-
-  .log-form input,
-  .log-form textarea,
-  .log-form button {
-    font-size: 0.95rem;
-  }
-
-  .log-card {
-    font-size: 0.9rem;
-  }
-}
-
-
-
-/* =========================
-   GLOBAL RESPONSIVE STYLES
-========================= */
-html {
-  font-size: 100%;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
-}
-
-/* Fluid typography */
-h1, h2, h3 {
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-}
-h2 {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-}
-h3 {
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-}
-
-/* Make all containers adapt */
-.container,
-.logs-container,
-.notes-container,
-.home-page {
-  width: 100%;
-  max-width: 1200px;
-  margin: auto;
-  padding-inline: 1rem;
-}
-
-/* Responsive grids */
-.log-cards,
-.note-list,
-.home-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.2rem;
-}
-
-/* Adaptive text areas & inputs */
-input, textarea {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* Responsive buttons */
-button {
-  width: auto;
-  max-width: 100%;
-}
-
-/* =========================
-   BREAKPOINTS
-========================= */
-
-/* Tablets (portrait) */
-@media (min-width: 600px) {
-  .note-form,
-  .log-form {
-    flex-direction: column;
-    max-width: 600px;
-  }
-}
-
-/* Tablets (landscape) and small desktops */
-@media (min-width: 768px) {
-  .home-cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Large desktops */
-@media (min-width: 1024px) {
-  .container {
-    padding-inline: 2rem;
-  }
-}
-
-
-/* Place this next to your other styles (imported in Kanban.jsx) */
-
-.kanban-page {
-  padding: 20px;
-  font-family: Inter, Arial, sans-serif;
-}
-
-.kanban-actions {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.kanban-actions input,
-.kanban-actions select {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-}
-
-.kanban-actions button {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  background: #0b5cff;
-  color: white;
-  cursor: pointer;
-}
-
-.kanban-actions .secondary {
-  background: #666;
-}
-
-/* Board layout */
+/* =============================
+   Kanban Board
+   ============================= */
 .kanban-board {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  gap: 1.2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
 }
 
-/* Column */
 .kanban-column {
-  background: #4c609c;
-  padding: 12px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 360px;
-  min-height: 280px;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  flex: 1;
+  min-width: 260px;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 102, 204, 0.25);
+  border-radius: 8px;
+  padding: 1rem;
 }
 
 .kanban-column h3 {
-  margin: 0 0 8px 0;
-  text-align: center;
-  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--imp-text-color);
 }
 
-/* Card list */
-.column-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Card */
 .kanban-card {
-  background: #4d72aa;
-  padding: 10px;
+  background: var(--bg-card);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  margin-bottom: 0.8rem;
+}
+
+.kanban-card h4 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  color: var(--secondary-accent);
+}
+
+.kanban-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* =============================
+   Forms (Notes, Logs, Kanban Add)
+   ============================= */
+.note-form,
+.log-form {
+  background: rgba(13, 17, 23, 0.85);
+  border: 1px solid rgba(0, 102, 204, 0.25);
   border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(31, 41, 55, 0.04);
-  cursor: grab;
-  transition: transform 120ms ease;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
 }
 
-.kanban-card.dragging {
-  opacity: 0.6;
-  transform: scale(0.98);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-title {
-  font-size: 14px;
-}
-
-.card-controls {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.icon-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
-}
-.icon-btn:hover { background: rgba(0,0,0,0.04); }
-.icon-btn.danger { color: #b91c1c; }
-
-.card-desc {
-  margin-top: 8px;
-  color: #333;
-  font-size: 13px;
-  white-space: pre-wrap;
-}
-
-/* Editing */
-.edit-area input {
+.note-form input,
+.log-form textarea,
+.kanban-actions input {
   width: 100%;
-  padding: 6px;
-  margin-bottom: 6px;
+  border: 1px solid var(--border-light);
   border-radius: 6px;
-  border: 1px solid #5177a2;
-}
-.edit-area textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #759be1;
-  resize: vertical;
-}
-.edit-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-.edit-actions .secondary {
-  background: #666;
+  padding: 0.6rem;
+  margin-bottom: 0.8rem;
+  background: var(--bg-card);
+  color: var(--text-light);
 }
 
-/* small screens */
-@media (max-width: 900px) {
+/* =============================
+   Responsive
+   ============================= */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+  }
+
   .kanban-board {
     flex-direction: column;
   }
-  .kanban-column { max-width: 100%; }
+
+  .notes-section {
+    grid-template-columns: 1fr;
+  }
+}
+body {
+  padding-top: 400px; /* match your navbar height */
+}
+.note-toolbar {
+  display: flex;
+  gap: 12px;
+  background: #2c2c2c; /* dark toolbar */
+  border-bottom: 1px solid #444;
+  padding: 6px 10px;
+  align-items: center;
+}
+
+.note-toolbar button,
+.note-toolbar select {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.note-toolbar button:hover,
+.note-toolbar select:hover {
+  color: #fff;
+}
+
+.note-toolbar select {
+  background: #2c2c2c;
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.note-toolbar .delete-btn {
+  margin-left: auto;
+  color: #ff4d4d;
+}
+
+.note-toolbar .delete-btn:hover {
+  color: #ff0000;
+}
+.note-toolbar {
+  display: flex;
+  gap: 12px;
+  background: #2c2c2c; /* same as notes toolbar */
+  border-bottom: 1px solid #444;
+  padding: 6px 10px;
+  align-items: center;
+}
+
+.note-toolbar button,
+.note-toolbar select,
+.note-toolbar input {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.note-toolbar input[type="number"] {
+  width: 50px;
+  background: #2c2c2c;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #ccc;
+  text-align: center;
+}
+
+.note-toolbar button:hover,
+.note-toolbar select:hover,
+.note-toolbar input:hover {
+  color: #fff;
 }

@@ -175,6 +175,8 @@ function Kanban() {
 
   return (
     <div className="kanban-page">
+      <br/>
+      <br/>
       <h2>Kanban Board</h2>
 
       <div className="kanban-actions">

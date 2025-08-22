@@ -3,38 +3,22 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
- 
-import { TextStyle } from "@tiptap/extension-text-style";
-import { Highlight } from "@tiptap/extension-highlight";
-import { Color } from "@tiptap/extension-color";
-import { MdFormatColorFill, MdFormatColorText, MdFormatSize } from "react-icons/md";
- 
-
+import { MdFormatColorText, MdFormatSize, MdFormatUnderlined, MdDelete } from "react-icons/md";
 import "../style.css";
 
 function Notes() {
   const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [notes, setNotes] = useState([]);
-  const [bgColor, setBgColor] = useState(localStorage.getItem("bgColor") || "#ffffff");
-  const [textColor, setTextColor] = useState(localStorage.getItem("textColor") || "#000000");
-  const [fontSize, setFontSize] = useState(localStorage.getItem("fontSize") || "16");
+
+  const [textColor, setTextColor] = useState("#000000");
+  const [fontSize, setFontSize] = useState("16");
+  const [underline, setUnderline] = useState(false);
 
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      Highlight,
-      Color,
-      
-    ],
-    content: "",
-  });
-    // Choose base URL depending on environment
+  // Choose base URL depending on environment
   const baseUrl =
     window.location.hostname === "localhost"
       ? "http://localhost:8080"
@@ -45,35 +29,30 @@ function Notes() {
       navigate("/login");
       return;
     }
-
     fetchNotes();
   }, [token]);
 
-   const fetchNotes = () => {
-  axios
-    .get(`${baseUrl}/api/notes`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    .then((res) => {
-       
-      setNotes(res.data);
-    })
-    .catch((err) => console.error("Error fetching notes:", err));
-};
-
+  const fetchNotes = () => {
+    axios
+      .get(`${baseUrl}/api/notes`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setNotes(res.data))
+      .catch((err) => console.error("Error fetching notes:", err));
+  };
 
   const handleAddNote = () => {
-    if (!title.trim() || !editor?.getHTML().trim()) return;
+    if (!title.trim() || !content.trim()) return;
 
     axios
       .post(
         `${baseUrl}/api/notes`,
-        { title, content: editor.getHTML() },
+        { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => {
         setTitle("");
-        editor.commands.setContent("");
+        setContent("");
         fetchNotes();
       })
       .catch((err) => console.error("Error adding note:", err));
@@ -90,95 +69,114 @@ function Notes() {
       .catch((err) => console.error("Error deleting:", err));
   };
 
-  // Save local preferences
-  useEffect(() => {
-    localStorage.setItem("bgColor", bgColor);
-    localStorage.setItem("textColor", textColor);
-    localStorage.setItem("fontSize", fontSize);
-  }, [bgColor, textColor, fontSize]);
-
   return (
     <div className="notes-container">
+      <br/>
+      <br/>
       <h2>My Notes</h2>
 
-      <div className="note-form">
-        
+      {/* Note Creation */}
+      {/* Note Creation */}
+<div className="note-card">
+        <div className="note-toolbar">
+          {/* Color picker with 7 fixed colors */}
+          <select
+            value={textColor}
+            onChange={(e) => setTextColor(e.target.value)}
+          >
+            <option value="" disabled>Color</option>
+            <option value="#000000" style={{ color: "#000000" }}>Black</option>
+            <option value="#FF0000" style={{ color: "#FF0000" }}>Red</option>
+            <option value="#007BFF" style={{ color: "#007BFF" }}>Blue</option>
+            <option value="#28A745" style={{ color: "#28A745" }}>Green</option>
+            <option value="#FFC107" style={{ color: "#FFC107" }}>Yellow</option>
+            <option value="#6F42C1" style={{ color: "#6F42C1" }}>Purple</option>
+            <option value="#FF7F50" style={{ color: "#FF7F50" }}>Coral</option>
+          </select>
 
-        <div className="options">
-          <div className="option-group">
-            <label>
-              <MdFormatColorFill style={{ marginRight: "5px" }} />
-               
-            </label>
-            <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} />
-          </div>
-
-          <div className="option-group">
-            <label>
-              <MdFormatColorText style={{ marginRight: "5px" }} />
-              
-            </label>
-            <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} />
-          </div>
-
-          <div className="option-group">
-            <label>
-              <MdFormatSize style={{ marginRight: "5px" }} />
-              
-            </label>
+          {/* Font size input */}
+          <label>
+            <MdFormatSize />
             <input
               type="number"
-              value={fontSize}
-              onChange={(e) => setFontSize(e.target.value)}
               min="10"
               max="36"
+              value={fontSize}
+              onChange={(e) => setFontSize(e.target.value)}
+              className="font-size-input"
             />
-          </div>
+          </label>
+
+          {/* Underline toggle */}
+          <button
+            onClick={() => setUnderline(!underline)}
+            className={underline ? "active" : ""}
+          >
+            <MdFormatUnderlined />
+          </button>
         </div>
+
+        {/* Title */}
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="note-title"
         />
 
-        <EditorContent
-          editor={editor}
+        {/* Content */}
+        <textarea
+          placeholder="Write your note..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           style={{
-            backgroundColor: bgColor,
             color: textColor,
             fontSize: `${fontSize}px`,
-            border: "1px solid #ccc",
-            padding: "10px",
-            minHeight: "100px",
+            textDecoration: underline ? "underline" : "none",
           }}
         />
-
-        
 
         <button onClick={handleAddNote}>Add Note</button>
       </div>
 
+
+      {/* Notes List */}
       <div className="note-list">
         {notes.map((note) => (
-            <div
-              key={note.id}
-              className="note-card"
-              style={{
-                backgroundColor: bgColor,
-                color: textColor,
-                fontSize: `${fontSize}px`,
-              }}
-            >
-               
-              <button className="delete-btn" onClick={() => handleDeleteNote(note.id)}>
-                ×
-              </button>
-              <h3>{note.title}</h3>
-              <div dangerouslySetInnerHTML={{ __html: note.content }} />
-            </div>
-          ))}
+          <div key={note.id} className="note-card">
+           <div className="note-toolbar">
+                  <button onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
+                  <button onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
+                  <button onClick={() => editor.chain().focus().toggleUnderline().run()}>U</button>
+                  <button onClick={() => editor.chain().focus().toggleStrike().run()}>ab</button>
+                  <button onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
 
+                  {/* Color picker */}
+                  <select
+                    onChange={(e) =>
+                      editor.chain().focus().setColor(e.target.value).run()
+                    }
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Color</option>
+                    <option value="#000000" style={{ color: "#000000" }}>Black</option>
+                    <option value="#FF0000" style={{ color: "#FF0000" }}>Red</option>
+                    <option value="#007BFF" style={{ color: "#007BFF" }}>Blue</option>
+                    <option value="#28A745" style={{ color: "#28A745" }}>Green</option>
+                    <option value="#FFC107" style={{ color: "#FFC107" }}>Yellow</option>
+                    <option value="#6F42C1" style={{ color: "#6F42C1" }}>Purple</option>
+                    <option value="#FF7F50" style={{ color: "#FF7F50" }}>Coral</option>
+                  </select>
+
+                {/* Delete note button */}
+                <button className="delete-btn" onClick={() => handleDeleteNote(note.id)}>✕</button>
+              </div>
+
+            <h3>{note.title}</h3>
+            <div dangerouslySetInnerHTML={{ __html: note.content }} />
+          </div>
+        ))}
       </div>
     </div>
   );
