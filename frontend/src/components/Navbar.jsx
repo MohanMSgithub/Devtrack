@@ -94,17 +94,30 @@ function NavBar() {
               </Button>
             </Nav.Item>
 
-            {user && (
-              <Nav.Item>
-                <Button
-                  variant="outline-danger"
-                  className="ms-3"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Button>
-              </Nav.Item>
-            )}
+             {user ? (
+                <Nav.Item>
+                  <Button
+                    variant="outline-danger"
+                    className="ms-3"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </Nav.Item>
+              ) : (
+                <Nav.Item>
+                  <Button
+                    as={Link}
+                    to="/login"
+                    variant="outline-success"
+                    className="ms-3"
+                    onClick={() => setExpand(false)}
+                  >
+                    Login
+                  </Button>
+                </Nav.Item>
+              )}
+
           </Nav>
         </Navbar.Collapse>
       </Container>
